@@ -1,24 +1,44 @@
 package org.selenium.junit;
 
-import static org.junit.Assert.*;
-
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.remote.RemoteWebElement;
 
 public class FindElementByClass {
 
-	@Before
-	public void setUp() throws Exception {
-	}
+	private static WebDriver driver;
 
-	@After
-	public void tearDown() throws Exception {
+	@BeforeClass
+	public static void setUp() throws Exception {
+		System.setProperty("webdriver.chrome.driver",
+				"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chromedriver.exe");
+		driver = new ChromeDriver();
+		driver.get("http://www.qunar.com/");
 	}
-
+/*
+	@AfterClass
+	public static void tearDown() throws Exception {
+		driver.quit();
+	}
+*/
 	@Test
-	public void test() {
-		fail("Not yet implemented");
-	}
+	public void checkFromCity() throws InterruptedException {
+		
+		driver.findElement(By.id("js_searchtype_roundtrip")).click();
+		System.out.println(driver.findElement(By.id("js_searchtype_roundtrip")).isSelected());
+		
+		driver.findElement(By.name("fromCity")).clear();
+		Thread.sleep(5000);
+		driver.findElement(By.name("fromCity")).sendKeys("北京(BJS)");
+		RemoteWebElement elem = (RemoteWebElement)driver.findElement(By.name("fromCity"));
+		System.out.println(elem.getText() + ";");
+		Assert.assertEquals(elem.getAttribute("value"), "北京(BJS)");
 
+	}
 }

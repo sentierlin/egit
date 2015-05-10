@@ -36,7 +36,7 @@ public class FindElementByName {
 	}
 
 	@After
-	public void After(){
+	public void tearDown(){
 		driver.quit();
 				//driver.close();
 	}
